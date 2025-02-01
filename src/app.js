@@ -19,21 +19,41 @@ const app = express();
 //     res.send("Hello Hello Hello");
 // });
 
-app.use("/user",(req,res)=> {
-    res.send("hahahahahahha");
-})
+// app.use("/user",(req,res)=> {
+//     res.send("hahahahahahha");
+// })
 
-app.get("/user", (req , res) => {
-    res.send({firstName : "Ankit" , lastName: "Kumar"});
-})
+// app.get("/user", (req , res) => {
+//     res.send({firstName : "Ankit" , lastName: "Kumar"});
+// })
 
-app.post("/user", (req,res) => {
-    res.send("Data successfully saved to the database!");
-})
+// app.post("/user", (req,res) => {
+//     res.send("Data successfully saved to the database!");
+// })
 
-app.delete("/user",(req,res) => {
-    res.send("deleted successfully");
-});
+// app.delete("/user",(req,res) => {
+//     res.send("deleted successfully");
+// });
+
+
+app.use("/user",[(req,res, next) => {
+    console.log("Handling the route user!!");
+    // res.send("Response");
+    next();
+},(req,res,next)=> {
+   console.log("Handling the route user 2!!");
+    // res.send("Response 2");
+    next();
+},
+(req,res,next)=> {
+    console.log("Handling the route user 3!!");
+    //  res.send("Response 3");
+    next();
+ },
+ (req,res)=> {
+    console.log("Handling the route user 4!!");
+     res.send("Response 4");
+ }]);
 
 
 
