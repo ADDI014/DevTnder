@@ -36,24 +36,40 @@ const app = express();
 // });
 
 
-app.use("/user",[(req,res, next) => {
-    console.log("Handling the route user!!");
+// app.use("/user",[(req,res, next) => {
+//     console.log("Handling the route user!!");
+//     res.send("Response");
+//     next();
+// },(req,res,next)=> {
+//    console.log("Handling the route user 2!!");
+//     res.send("Response 2");
+//     next();
+// },
+// (req,res,next)=> {
+//     console.log("Handling the route user 3!!");
+//      res.send("Response 3");
+//     next();
+//  },
+//  (req,res)=> {
+//     console.log("Handling the route user 4!!");
+//      res.send("Response 4");
+//  }]);
+
+app.get("/user",(req,res, next) => {
+    console.log("Handling the route user1!!");
     // res.send("Response");
     next();
-},(req,res,next)=> {
-   console.log("Handling the route user 2!!");
-    // res.send("Response 2");
+});
+
+app.get("/user",(req,res, next) => {
+    console.log("Handling the route user2!!");
+    // res.send("Response2");
     next();
-},
-(req,res,next)=> {
-    console.log("Handling the route user 3!!");
-    //  res.send("Response 3");
-    next();
- },
- (req,res)=> {
-    console.log("Handling the route user 4!!");
-     res.send("Response 4");
- }]);
+});
+
+
+
+
 
 
 
