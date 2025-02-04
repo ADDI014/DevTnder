@@ -2,7 +2,7 @@ const express = require("express");
 
 const app = express();
 
-const {adminAuth , UserAuth} = require("./middlewares/auth");
+// const {adminAuth , UserAuth} = require("./middlewares/auth");
 
 
 // app.use('/',(req,res) => {
@@ -73,27 +73,55 @@ const {adminAuth , UserAuth} = require("./middlewares/auth");
 
 
 //handle Auth Middleware for all GET POST ,... requests
-app.use('/admin', adminAuth );
+// app.use('/admin', adminAuth );
 
-app.get("/user", (req,res) => {
-    res.send("Uaser data Sent");
+// app.get("/user", (req,res) => {
+//     res.send("Uaser data Sent");
+// });
+
+// app.get("/admin/getAllData",(req,res)=> {
+//     res.send("All data sent");
+// })
+
+// app.get("/user/login", (req,res)=>{
+//     res.send("user logged in successfully");
+// })
+
+// app.get("/user", UserAuth, (req,res) => {
+//     res.send("Uaser data Sent");
+// });
+
+// app.get("/admin/deleteUser",(req,res)=> {
+//     res.send("Deleted a User");
+// })
+
+
+app.use('/', ( req, res) => {
+    throw new Error('BROKEN') // Express will catch this on its own.
+    // if(err){
+    //     res.status(500).send("something went wrong");
+    // }
+  })
+
+app.get("/error" , (req, res) => {
+    try {
+        let result = 10;
+        res.send(`result= ${result}`);
+    }
+    catch(err){
+        res.status(500).send("something went wrong");
+    }
+})
+
+app.get("/getUserData" , (req, res) => {
+    try {
+        throw new Error('BROKEN')
+        res.send("user data doesnt exist");
+    }
+    catch(err){
+        res.status(500).send("something went wrong");
+    }
 });
-
-app.get("/admin/getAllData",(req,res)=> {
-    res.send("All data sent");
-})
-
-app.get("/user/login", (req,res)=>{
-    res.send("user logged in successfully");
-})
-
-app.get("/user", UserAuth, (req,res) => {
-    res.send("Uaser data Sent");
-});
-
-app.get("/admin/deleteUser",(req,res)=> {
-    res.send("Deleted a User");
-})
 
 
 
