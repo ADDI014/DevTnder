@@ -2,6 +2,8 @@ const express = require("express");
 
 const app = express();
 
+const connectDB = require("./config/database");
+
 // const {adminAuth , UserAuth} = require("./middlewares/auth");
 
 
@@ -96,42 +98,45 @@ const app = express();
 // })
 
 
-app.use('/', ( req, res) => {
-    throw new Error('BROKEN') // Express will catch this on its own.
-    // if(err){
-    //     res.status(500).send("something went wrong");
-    // }
-  })
+// app.use('/', ( req, res) => {
+//     throw new Error('BROKEN') // Express will catch this on its own.
+//     // if(err){
+//     //     res.status(500).send("something went wrong");
+//     // }
+//   })
 
-app.get("/error" , (req, res) => {
-    try {
-        let result = 10;
-        res.send(`result= ${result}`);
-    }
-    catch(err){
-        res.status(500).send("something went wrong");
-    }
-})
+// app.get("/error" , (req, res) => {
+//     try {
+//         let result = 10;
+//         res.send(`result= ${result}`);
+//     }
+//     catch(err){
+//         res.status(500).send("something went wrong");
+//     }
+// })
 
-app.get("/getUserData" , (req, res) => {
-    try {
-        throw new Error('BROKEN')
-        res.send("user data doesnt exist");
-    }
-    catch(err){
-        res.status(500).send("something went wrong");
-    }
+// app.get("/getUserData" , (req, res) => {
+//     try {
+//         throw new Error('BROKEN')
+//         res.send("user data doesnt exist");
+//     }
+//     catch(err){
+//         res.status(500).send("something went wrong");
+//     }
+// });
+
+
+
+connectDB().then(() => {
+    console.log("Database connection established");
+
+    app.listen(7777, () => {
+        console.log("Server is listening on port 7777...");
+    })
+
+    
+}).catch((err) => {
+    console.log("Database cannot be connected");
 });
-
-
-
-
-
-
-
-
-app.listen(7777, () => {
-    console.log("Server is listening on port 7777...");
-})
 
 
