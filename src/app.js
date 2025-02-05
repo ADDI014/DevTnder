@@ -4,6 +4,7 @@ const app = express();
 
 const connectDB = require("./config/database");
 
+const User = require("./models/user");
 // const {adminAuth , UserAuth} = require("./middlewares/auth");
 
 
@@ -125,6 +126,18 @@ const connectDB = require("./config/database");
 //     }
 // });
 
+app.post("/signup" , async (req,res) => {
+    const user = new User({
+        firstName : "Ankit",
+        lastName : "Kumar",
+        emailId : "ankit123@gmail.com",
+        password : "ankit@123",
+    });
+
+    await user.save();
+    res.send("User added successfully")
+})
+
 
 
 connectDB().then(() => {
@@ -133,8 +146,6 @@ connectDB().then(() => {
     app.listen(7777, () => {
         console.log("Server is listening on port 7777...");
     })
-
-    
 }).catch((err) => {
     console.log("Database cannot be connected");
 });
