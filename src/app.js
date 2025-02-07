@@ -198,6 +198,24 @@ app.get("/getOneUser",async (req,res) => {
     }
 })
 
+app.get("/findById",async (req,res) => {
+    
+    // const userEmail = req.body.emailId;
+    try{
+        const users = await User.findById({_id : "67a3a59022124aa0d1a751c0"});
+
+        if(users.length === 0){
+           res.status(404).send("User Not Found");
+        }
+        else{
+            res.send(users); 
+        }
+    }
+    catch(err) {
+        res.status(400).send("Something went Wrong");
+    }
+})
+
 connectDB().then(() => {
     console.log("Database connection established");
 
