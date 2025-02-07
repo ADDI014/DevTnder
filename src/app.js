@@ -145,7 +145,6 @@ app.post("/signup" , async (req,res) => {
 app.get("/user",async (req,res) => {
     
     const userEmail = req.body.emailId;
-
     try{
         const users = await User.find({emailId : userEmail});
 
@@ -159,10 +158,45 @@ app.get("/user",async (req,res) => {
     catch(err) {
         res.status(400).send("Something went Wrong");
     }
-    
-
 })
 
+
+
+app.get("/feed",async (req,res) => {
+    
+    // const userEmail = req.body.emailId;
+    try{
+        const users = await User.find();
+
+        if(users.length === 0){
+           res.status(404).send("User Not Found");
+        }
+        else{
+            res.send(users); 
+        }
+    }
+    catch(err) {
+        res.status(400).send("Something went Wrong");
+    }
+})
+
+app.get("/getOneUser",async (req,res) => {
+    
+    const userEmail = req.body.emailId;
+    try{
+        const users = await User.findOne({emailId : userEmail});
+
+        if(users.length === 0){
+           res.status(404).send("User Not Found");
+        }
+        else{
+            res.send(users); 
+        }
+    }
+    catch(err) {
+        res.status(400).send("Something went Wrong");
+    }
+})
 
 connectDB().then(() => {
     console.log("Database connection established");
