@@ -234,13 +234,15 @@ app.patch("/user", async (req , res) => {
     const data = req.body;
 
     try {
-        const user = await User.findByIdAndUpdate(userId , data);
+        const user = await User.findByIdAndUpdate(userId , data, {
+            returnDocument : "after",
+            runValidators : true,
+        });
         res.send("user Updated successfully");
     }
     catch(err){
         res.status(400).send("Something went wrong");
     }
-    
 })
 
 connectDB().then(() => {
