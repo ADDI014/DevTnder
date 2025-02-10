@@ -1,10 +1,13 @@
 const express = require("express");
 
+const User = require("./src/models/user");
+ const {validateSignUp} = require("./utils/validation");
+
 const app = express();
 
-const connectDB = require("./config/database");
+const connectDB = require("./src/config/database");
 
-const User = require("./models/user");
+
 
 app.use(express.json());
 // const {adminAuth , UserAuth} = require("./middlewares/auth");
@@ -129,15 +132,22 @@ app.use(express.json());
 // });
 
 app.post("/signup" , async (req,res) => {
-    console.log(req.body);
-    const user = new User(req.body);
+
 
     try {
+    //validation of data
+    validateSignUp(req);
+
+    //enncrypt the password
+
+
+    const user = new User(req.body);
+
         await user.save();
     res.send("User added successfully");
     }
     catch(err){
-        res.status(400).send("Error saving the user:" + err.message);
+        res.status(400).send("ERROR : " + err.message);
     }
 })
 
