@@ -2,7 +2,9 @@ const express = require("express");
 
 const User = require("./src/models/user");
 const bcrypt = require('bcrypt');
- const {validateSignUp} = require("./utils/validation");
+const cookieParser = require("cookie-parser");
+const jwt = require('jsonwebtoken');
+const {validateSignUp} = require("./utils/validation");
 
 const app = express();
 
@@ -12,6 +14,7 @@ const connectDB = require("./src/config/database");
 
 
 app.use(express.json());
+app.use(cookieParser());
 // const {adminAuth , UserAuth} = require("./middlewares/auth");
 
 
@@ -134,26 +137,18 @@ app.use(express.json());
 // });
 
 app.post("/signup" , async (req,res) => {
-
-
     try {
     //validation of data
     validateSignUp(req);
-
     const {firstName , lastName, emailId, password} = req.body;
     //enncrypt the password
-
     const passswordHash = await bcrypt.hash(password , 10);
-
-
-
     const user = new User({
         firstName,
         lastName,
         emailId,
         password : passswordHash,
     });
-
         await user.save();
     res.send("User added successfully");
     }
@@ -175,6 +170,12 @@ app.post("/login" , async (req,res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if(isPasswordValid){
+            //Create a JWT token
+
+            const token = await jwt.sign({ _id : user._id} , "DEV@Tinder$790");
+            console.log(token);
+            //Add the token
+            res.cookie("token" , token);
             res.send("Login successfulll");
         }
         else{
@@ -185,6 +186,32 @@ app.post("/login" , async (req,res) => {
         res.status(400).send("ERROR:" + err.message);
     }
 });
+
+app.get("/profile", async  (req,res) => {
+
+    try {
+    const cookies = req.cookies;
+    const {token} = cookies;
+
+    //validate the token
+    if(!token){
+        throw new Error("Invalid Token");
+    }
+
+
+    const decodedMessage = await jwt.verify(token , "DEV@Tinder$790")
+    const {_id} = decodedMessage;
+    console.log("Logged In User is" + _id);
+
+    const user = await User.findById(_id);
+    if(!user){
+        throw new Error("No user found");
+    }
+    res.send(user);
+    }catch(err){
+        res.status(400).send("ERROR:" + err.message);
+    }
+})
 
 app.get("/user",async (req,res) => {
     
