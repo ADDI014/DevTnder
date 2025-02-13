@@ -54,9 +54,13 @@ app.post("/login" , async (req,res) => {
 
         if(isPasswordValid){
             //Create a JWT token
-            const token = await jwt.sign({ _id : user._id} , "DEV@Tinder$790");
+            const token = await jwt.sign({ _id : user._id} , "DEV@Tinder$790", {
+                expiresIn : "7d",
+            });
             //Add the token
-            res.cookie("token" , token);
+            res.cookie("token" , token , {
+                expires : new Date(Date.now() + 8 * 3600000),
+            });
             res.send("Login successfulll");
         }
         else{
@@ -81,6 +85,14 @@ app.get("/profile", UserAuth, async  (req,res) => {
     }catch(err){
         res.status(400).send("ERROR:" + err.message);
     }
+})
+
+app.post("/sendConnectionRequest" , UserAuth, async (req,res) => {
+    const user = req.user;
+
+    console.log("Sending the connection request");
+
+    res.send(user.firstName + "Sent the connection request");
 })
 
 
