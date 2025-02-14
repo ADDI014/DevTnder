@@ -4,9 +4,6 @@ const {UserAuth}= require("../middlewares/auth");
 
 
 
-
-
-
 requestRouter.post("/sendConnectionRequest" , UserAuth, async (req,res) => {
     const user = req.user;
 
