@@ -16,6 +16,17 @@ requestRouter.post("/request/send/:status/:toUserId" , UserAuth, async (req,res)
         return res.status(400).json({message : "Invalid status type : " + status});
     }
 
+    const existingConnectionRequest = await ConnectionRequest.findOne({
+        $or : [
+            {fromUserId , toUserId},
+            {fromUserId : toUserId, toUserId : fromUserId},
+        ],
+    });
+
+    if(existingConnectionRequest){
+        return res.status(400).send({message : "Connection Request Already Exists"});
+    }
+
     const connectionRequest = new   ConnectionRequest({
         fromUserId,
         toUserId,
