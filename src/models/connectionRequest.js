@@ -21,9 +21,9 @@ const connectionRequestSchema = new mongoose.Schema({
     },
 }, {timestamps : true})
 
-const connectionRequestModel = new mongoose.model(
-    "connectionRequest",
+const ConnectionRequestModel = new mongoose.model(
+    "ConnectionRequest",
     connectionRequestSchema
 );
 
-module.exports = connectionRequestModel;
+module.exports = ConnectionRequestModel;
