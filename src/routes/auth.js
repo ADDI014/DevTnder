@@ -3,7 +3,6 @@ const authRouter = express.Router();
 const User = require("../models/user");
 const bcrypt = require('bcrypt');
 const {validateSignUp} = require("../utils/validation");
-const { now } = require('mongoose');
 
 
 authRouter.post("/signup" , async (req,res) => {
