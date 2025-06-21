@@ -1,6 +1,9 @@
 const express = require("express");
 
 const cookieParser = require("cookie-parser");
+const cors = require('cors');
+
+
 
 
 
@@ -8,6 +11,7 @@ const app = express();
 
 const connectDB = require("./src/config/database");
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
