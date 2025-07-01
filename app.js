@@ -9,7 +9,7 @@ const connectDB = require("./src/config/database");
 
 app.use(cors(
     { origin: ['http://localhost:5173',
-        "https://devsang.netlify.app",
+        "https://devsang-backend.onrender.com",
     ],
         credentials : true
      }
