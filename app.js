@@ -9,7 +9,7 @@ const connectDB = require("./src/config/database");
 
 app.use(cors(
     { origin: ['http://localhost:5173',
-        "https://devsang-backend.onrender.com",
+        process.env.FRONTEND_URL,
     ],
         credentials : true
      }
