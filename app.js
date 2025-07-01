@@ -3,6 +3,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require('cors');
 const app = express();
+const PORT = process.env.PORT || 7777;
 
 const connectDB = require("./src/config/database");
 
@@ -63,7 +64,7 @@ app.patch("/user/:userId", async (req , res) => {
 connectDB().then(() => {
     console.log("Database connection established");
 
-    app.listen(7777, () => {
+    app.listen(PORT, () => {
         console.log("Server is listening on port 7777...");
     })
 }).catch((err) => {
